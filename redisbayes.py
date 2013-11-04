@@ -203,8 +203,13 @@ class RedisBayes(object):
     def classify(self, text):
         score = self.score(text)
         if not score:
-            return None
-        return sorted(score.iteritems(), key=lambda v: v[1])[-1][0]
+            return -1
+        s = sorted(score.iteritems(), key=lambda v: v[1])[-1][0]
+        if s == 'good':
+            '''return true is eqivalent to good while false is bad'''
+            return True
+        else:
+            return False
 
     def score(self, text):
         occurs = occurances(self.tokenizer(text))
